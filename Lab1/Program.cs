@@ -9,9 +9,27 @@ namespace Lab1
     {
         static void Main(string[] args)
         {
-            int MAX = 10000;
+            int MAX = 100000;
+            int ITERATIONS = 11;
 
-            for (int c = 0; c < 10; c++)
+            double totalOrderedCreate = 0;
+            double totalUnorderedCreate = 0;
+
+            double totalOrderedGet = 0;
+
+            double totalHeightOrdered = 0;
+            double totalHeightUnordered = 0;
+
+            IKeyValueMap<int, int> keyValueMap = null ;
+
+            var dictionaryKeyValueMap = new DictionaryKeyValueMap<int, int>();
+            var bstKeyValueMap = new BinarySearchTreeKeyValueMap<int, int>();
+            var avlKeyValueMap = new AVLTreeKeyValueMap<int, int>();
+            var redblackKeyValueMap = new RedBlackTreeKeyValueMap<int, int>();
+
+            keyValueMap = bstKeyValueMap;
+
+            for (int c = 0; c < ITERATIONS; c++)
             {
                 var intKeyValuePairs = new List<KeyValuePair<int, int>>();
 
@@ -20,45 +38,73 @@ namespace Lab1
                     intKeyValuePairs.Add(new KeyValuePair<int, int>(i, i + 42));
                 }
 
-                //var dictionaryKeyValueMap = new DictionaryKeyValueMap<int, int>();
-                var bstKeyValueMap = new BinarySearchTreeKeyValueMap<int, int>();
+                keyValueMap.Clear();
+                // Ordered
+                totalOrderedCreate += CreateKeyValueMap<int, int>(keyValueMap, intKeyValuePairs);
+                totalHeightOrdered += keyValueMap.Height;
 
-                //Console.WriteLine("DictionaryKeyValueMap");
-                Console.WriteLine("BSTKeyValueMap");
-                Console.WriteLine("Ordered");
-                CreateKeyValueMap<int, int>(bstKeyValueMap, intKeyValuePairs);
+                //totalOrderedGet += QueryKeyValueMap<int, int>(keyValueMap, intKeyValuePairs);
 
-                Console.WriteLine("Unordered");
+                // Unordered
                 intKeyValuePairs.Shuffle();
-                bstKeyValueMap = new BinarySearchTreeKeyValueMap<int, int>();
+                keyValueMap.Clear();
+                totalUnorderedCreate += CreateKeyValueMap<int, int>(keyValueMap, intKeyValuePairs);
+                totalHeightUnordered += keyValueMap.Height;
 
-                CreateKeyValueMap<int, int>(bstKeyValueMap, intKeyValuePairs);
             }
+
+            Console.WriteLine(keyValueMap.GetType());
+
+            Console.WriteLine("Ordered");
+            Console.WriteLine(totalOrderedCreate / ITERATIONS);
+            Console.WriteLine(totalHeightOrdered/ ITERATIONS);
+
+            Console.WriteLine("Unordered");
+            Console.WriteLine(totalUnorderedCreate / ITERATIONS);
+            Console.WriteLine(totalHeightUnordered / ITERATIONS);
+
+
 
         }
 
 
-        public static void CreateKeyValueMap<TKey, TValue>(
+        public static double CreateKeyValueMap<TKey, TValue>(
                 IKeyValueMap<TKey,TValue> keyValueMap,
                 List<KeyValuePair<TKey, TValue>> keyValuePairs )
         {
+            Stopwatch stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+            // do the work
+
+            foreach (var kvp in keyValuePairs)
+            {
+                keyValueMap.Add(kvp.Key, kvp.Value);
+            }
+
+            stopwatch.Stop();
+
+            Console.WriteLine(stopwatch.Elapsed.TotalSeconds);
+            return stopwatch.Elapsed.TotalSeconds;
             
 
         }
 
 
-        public static void QueryKeyValueMap<TKey, TValue>(
+        //TODO
+        public static double QueryKeyValueMap<TKey, TValue>(
                 IKeyValueMap<TKey, TValue> keyValueMap,
                 List<KeyValuePair<TKey, TValue>> keyValuePairs)
         {
-           
+            return 0.0;
         }
 
-        public static void RemoveKeyValueMap<TKey, TValue>(
+        //TODO
+        public static double RemoveKeyValueMap<TKey, TValue>(
                 IKeyValueMap<TKey, TValue> keyValueMap,
                 List<KeyValuePair<TKey, TValue>> keyValuePairs)
         {
-            
+            return 0.0;
         }
     }
 }
