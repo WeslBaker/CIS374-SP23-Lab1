@@ -96,7 +96,20 @@ namespace Lab1
                 IKeyValueMap<TKey, TValue> keyValueMap,
                 List<KeyValuePair<TKey, TValue>> keyValuePairs)
         {
-            return 0.0;
+            Stopwatch stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+            // do the work
+
+            foreach (var kvp in keyValuePairs)
+            {
+                keyValueMap.Get(kvp.Key);
+            }
+
+            stopwatch.Stop();
+
+            Console.WriteLine(stopwatch.Elapsed.TotalSeconds);
+            return stopwatch.Elapsed.TotalSeconds; ;
         }
 
         //TODO
@@ -104,7 +117,20 @@ namespace Lab1
                 IKeyValueMap<TKey, TValue> keyValueMap,
                 List<KeyValuePair<TKey, TValue>> keyValuePairs)
         {
-            return 0.0;
+            Stopwatch stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+            // do the work
+
+            foreach (var kvp in keyValuePairs)
+            {
+                keyValueMap.Remove(kvp.Key);
+            }
+
+            stopwatch.Stop();
+
+            Console.WriteLine(stopwatch.Elapsed.TotalSeconds);
+            return stopwatch.Elapsed.TotalSeconds;
         }
     }
 }
