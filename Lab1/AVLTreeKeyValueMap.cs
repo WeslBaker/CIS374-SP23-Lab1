@@ -8,39 +8,40 @@ namespace Lab1
     //TODO
     class AVLTreeKeyValueMap<TKey, TValue>: IKeyValueMap<TKey, TValue>
     {
-        private AVLTreeKeyValueMap<TKey, TValue> aVLTreeValueMap = new AVLTreeKeyValueMap<TKey, TValue>;
+        private AVLTreeMap<TKey, TValue> avlTreeMap = new AVLTreeMap<TKey, TValue>();
 
-        public int Height => aVLTreeValueMap.Height;
+        public int Height => avlTreeMap.Height;
 
-        public int Count => aVLTreeValueMap.Count;
+        public int Count => avlTreeMap.Count;
 
         public void Add(TKey key, TValue value)
         {
-            aVLTreeValueMap.Add(key, value);
+            avlTreeMap.Add(key, value);
         }
 
         public void Clear()
         {
-            aVLTreeValueMap.Clear();
+            avlTreeMap.Clear();
         }
 
         public KeyValuePair<TKey, TValue> Get(TKey key)
         {
-            TValue value = aVLTreeValueMap.Get(key);
+            TValue value;
+            avlTreeMap.TryGetValue(key, out value);
             return new KeyValuePair<TKey, TValue>(key, value);
         }
 
-        public bool Remove(TKey key)
+       public bool Remove(TKey key)
         {
-            if (aVLTreeValueMap.Contains(key))
+            if (avlTreeMap.ContainsKey(key))
             {
-                aVLTreeValueMap.Remove(key);
+                avlTreeMap.Remove(key);
                 return true;
             }
             else
             {
                 return false;
-            };
+            }
         }
     }
 }

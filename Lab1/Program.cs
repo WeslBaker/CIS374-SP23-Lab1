@@ -9,7 +9,7 @@ namespace Lab1
     {
         static void Main(string[] args)
         {
-            int MAX = 100000;
+            int MAX = 10000000;
             int ITERATIONS = 11;
 
             double totalOrderedCreate = 0;
@@ -31,7 +31,7 @@ namespace Lab1
             var avlKeyValueMap = new AVLTreeKeyValueMap<int, int>();
             var redblackKeyValueMap = new RedBlackTreeKeyValueMap<int, int>();
 
-            keyValueMap = bstKeyValueMap;
+            keyValueMap = dictionaryKeyValueMap;
 
             for (int c = 0; c < ITERATIONS; c++)
             {
@@ -42,33 +42,33 @@ namespace Lab1
                     intKeyValuePairs.Add(new KeyValuePair<int, int>(i, i + 42));
                 }
 
-                keyValueMap.Clear();
+                //intKeyValuePairs.Shuffle();
                 // Ordered
-                totalOrderedCreate += CreateKeyValueMap<int, int>(keyValueMap, intKeyValuePairs);
+                //totalOrderedCreate += CreateKeyValueMap<int, int>(keyValueMap, intKeyValuePairs);
+                foreach (var kvp in intKeyValuePairs)
+                {
+                    keyValueMap.Add(kvp.Key, kvp.Value);
+                }
+
+                totalOrderedRemove += RemoveKeyValueMap<int, int>(keyValueMap, intKeyValuePairs);
                 //totalHeightOrdered += keyValueMap.Height;
 
-                //totalOrderedGet += QueryKeyValueMap<int, int>(keyValueMap, intKeyValuePairs);
-
                 // Unordered
-                intKeyValuePairs.Shuffle();
+                //totalUnorderedRemove += RemoveKeyValueMap<int, int>(keyValueMap, intKeyValuePairs);
                 keyValueMap.Clear();
                 //totalUnorderedCreate += CreateKeyValueMap<int, int>(keyValueMap, intKeyValuePairs);
                 //totalHeightUnordered += keyValueMap.Height;
-
             }
 
             Console.WriteLine(keyValueMap.GetType());
 
             Console.WriteLine("Ordered");
-            Console.WriteLine(totalOrderedCreate / ITERATIONS);
+            Console.WriteLine(totalOrderedRemove / ITERATIONS);
             Console.WriteLine(totalHeightOrdered/ ITERATIONS);
 
             Console.WriteLine("Unordered");
-            Console.WriteLine(totalUnorderedCreate / ITERATIONS);
+            Console.WriteLine(totalUnorderedRemove / ITERATIONS);
             Console.WriteLine(totalHeightUnordered / ITERATIONS);
-
-
-
         }
 
 
@@ -90,10 +90,7 @@ namespace Lab1
 
             Console.WriteLine(stopwatch.Elapsed.TotalSeconds);
             return stopwatch.Elapsed.TotalSeconds;
-            
-
         }
-
 
         //TODO
         public static double QueryKeyValueMap<TKey, TValue>(

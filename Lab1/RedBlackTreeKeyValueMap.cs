@@ -1,10 +1,45 @@
-﻿namespace Lab1
+﻿using System.Collections.Generic;
+using DSA.DataStructures.Trees;
+
+namespace Lab1
 {
     //TODO
-    public class RedBlackTreeKeyValueMap<TKey, TValue>
+    class RedBlackTreeKeyValueMap<TKey, TValue> : IKeyValueMap<TKey, TValue>
     {
-        public RedBlackTreeKeyValueMap()
+        private RedBlackTreeMap<TKey, TValue> RBTreeMap = new RedBlackTreeMap<TKey, TValue>();
+
+        public int Height => RBTreeMap.Height;
+
+        public int Count => RBTreeMap.Count;
+
+        public void Add(TKey key, TValue value)
         {
+            RBTreeMap.Add(key, value);
+        }
+
+        public void Clear()
+        {
+            RBTreeMap.Clear();
+        }
+
+        public KeyValuePair<TKey, TValue> Get(TKey key)
+        {
+            TValue value;
+            RBTreeMap.TryGetValue(key, out value);
+            return new KeyValuePair<TKey, TValue>(key, value);
+        }
+
+        public bool Remove(TKey key)
+        {
+            if (RBTreeMap.ContainsKey(key))
+            {
+                RBTreeMap.Remove(key);
+                return true;
+            }
+            else
+            {
+                return false;
+            };
         }
     }
 }
